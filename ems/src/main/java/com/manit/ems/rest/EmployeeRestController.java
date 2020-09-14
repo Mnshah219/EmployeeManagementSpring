@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.manit.ems.entity.Employee;
 import com.manit.ems.service.EmployeeService;
+import com.manit.ems.util.CustomCreateResponse;
 import com.manit.ems.util.CustomResponseMessage;
 
 @RestController
@@ -24,25 +26,27 @@ public class EmployeeRestController {
 	@Autowired
 	private EmployeeService service;
 	
-	
+	@CrossOrigin("http://localhost:4200")
 	@GetMapping("/employees")
 	public List<Employee> getEmployees(){
 		return service.getEmployees();
 	}
-	
+	@CrossOrigin("http://localhost:4200")
 	@GetMapping("/employee")
-	public Employee getEmployee(HttpServletRequest request) {
+		public Employee getEmployee(HttpServletRequest request) {
 		int id = Integer.parseInt(request.getAttribute("id").toString()); 
-		return service.getEmployee(1);
+		return service.getEmployee(id);
 	}
 	
+	@CrossOrigin("http://localhost:4200")
 	@PostMapping("/create")
-	public ResponseEntity<CustomResponseMessage> createEmployee(@RequestBody Employee employee) {
+	public ResponseEntity<CustomCreateResponse> createEmployee(@RequestBody Employee employee) {
 		
-		service.createEmployee(employee);
-		return new ResponseEntity<CustomResponseMessage>(new CustomResponseMessage("Employee Created"),HttpStatus.OK);
+		int id=service.createEmployee(employee);
+		return new ResponseEntity<CustomCreateResponse>(new CustomCreateResponse("Employee Created",id),HttpStatus.OK);
 		}
 	
+	@CrossOrigin("http://localhost:4200")
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<CustomResponseMessage> deleteEmployee(@PathVariable("id") int id) {
 		String message = "Deletion successfull";
@@ -51,7 +55,7 @@ public class EmployeeRestController {
 		
 	}
 	
-	
+	@CrossOrigin("http://localhost:4200")
 	@PostMapping("/employee")
 	public ResponseEntity<CustomResponseMessage> updateEmployee( @RequestBody Employee employee) {
 		System.out.println("--------->"+employee);

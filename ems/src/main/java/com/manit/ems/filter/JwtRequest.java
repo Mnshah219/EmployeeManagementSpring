@@ -48,7 +48,6 @@ public class JwtRequest extends OncePerRequestFilter {
 			role=(String) claims.get("role");
 			request.setAttribute("role",role);
 			MyUserDetails myUserDetails = myUserdetailsService.loadUserByUsername(userName);
-			System.out.println("----->"+myUserDetails);
 			if(jwtUtil.validateToken(jwt, myUserDetails)) {
 				UsernamePasswordAuthenticationToken userNamePasswordAuthenticationToken = 
 						new UsernamePasswordAuthenticationToken(myUserDetails, null, myUserDetails.getAuthorities());

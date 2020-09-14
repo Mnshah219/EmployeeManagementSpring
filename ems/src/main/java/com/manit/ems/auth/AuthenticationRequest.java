@@ -4,13 +4,11 @@ public class AuthenticationRequest {
 
 	private String userName;
 	private String password;
-	private String role;
 	
-	public AuthenticationRequest(String userName, String password, String role) {
+	public AuthenticationRequest(String userName, String password) {
 		super();
 		this.userName = userName;
 		this.password = password;
-		this.role = role;
 	}
 	
 	public AuthenticationRequest() {}
@@ -31,17 +29,9 @@ public class AuthenticationRequest {
 		this.password = password;
 	}
 
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
-	}
-
 	@Override
 	public String toString() {
-		return "AuthenticationRequest [userName=" + userName + ", password=" + password + ", role=" + role + "]";
+		return "AuthenticationRequest [userName=" + userName + ", password=" + password + ", role="  + "]";
 	}
 	
 	

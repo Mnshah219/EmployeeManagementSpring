@@ -33,32 +33,26 @@ public class MyUserDetailsService implements UserDetailsService {
 	@Override
 	@Transactional
 	public MyUserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		
-	    String role = request.getAttribute("role").toString().toLowerCase();
+		Admin admin = adminDAO.getAdminByEmail(email);
+	    Employee employee = employeeDAO.getEmployeeByEmail(email);
 	    ArrayList<GrantedAuthority> arrayList = new ArrayList<>();
-	    if(role.equals("admin")) {
-	    	Admin admin = adminDAO.getAdminByEmail(email);
+	   
+	    	
 	    	if(admin!=null) {
 				arrayList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 				arrayList.add(new SimpleGrantedAuthority("ROLE_USER"));
+				request.setAttribute("role", "admin");
 				return new MyUserDetails(admin.getEmail(), admin.getPassword(), arrayList,admin.geteId());
-	    }
+	    	}
+	    	else if(employee!=null) {
+	    		arrayList.add(new SimpleGrantedAuthority("ROLE_USER"));
+	    		request.setAttribute("role", "user");
+				return new MyUserDetails(employee.getEmail(), employee.getPassword(), arrayList,employee.getId());
+	    	}
 	    	else {
 	    		throw new UsernameNotFoundException("User name not found");
 	    	}
-	    }
-	    	else {
-	    		
-	    		Employee employee = employeeDAO.getEmployeeByEmail(email);
-	    		if(employee!=null) {
-	    		arrayList.add(new SimpleGrantedAuthority("ROLE_USER"));
-				return new MyUserDetails(employee.getEmail(), employee.getPassword(), arrayList,employee.getId());
-	    		}
-	    		else {
-	    			throw new UsernameNotFoundException("User name not found");
-	    		}
-	    	}
-	
+	    
 
 	}
 }

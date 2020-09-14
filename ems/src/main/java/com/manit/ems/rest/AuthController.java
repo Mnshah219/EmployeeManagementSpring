@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,10 +36,10 @@ public class AuthController {
 
 	@Autowired
 	EmployeeDAO employeeDAO;
+	@CrossOrigin("http://localhost:4200")
 	@PostMapping("/authenticate")
 	public ResponseEntity<?> loginEmployee(@RequestBody AuthenticationRequest authRequest,HttpServletRequest request) {
 		try {
-			request.setAttribute("role", authRequest.getRole());
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword()));
 		}
 		catch(BadCredentialsException e) {
@@ -46,9 +47,9 @@ public class AuthController {
 		}
 		
 		final MyUserDetails myUserDetails = myUserDetailService.loadUserByUsername(authRequest.getUserName());
-		
+		final String role = request.getAttribute("role").toString();
 		final String jwt = jwtUtil.generateToken(myUserDetails);
-		return ResponseEntity.ok(new AuthenticationResponse(jwt));
+		return ResponseEntity.ok(new AuthenticationResponse(jwt,role));
 		//TODO add appropriate return types and response + password encrypted from frontend
 		
 	}

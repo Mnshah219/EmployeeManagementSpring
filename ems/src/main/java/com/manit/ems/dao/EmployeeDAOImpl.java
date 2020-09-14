@@ -42,7 +42,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		currentSession.saveOrUpdate(employee);
 		}
 		catch(Exception e) {
-			throw new CustomException("Error updating employee");
+		throw new CustomException("Error updating employee");
 		}
 	}
 
@@ -60,13 +60,17 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	}
 
 	@Override
-	public void createEmployee(Employee employee) {
+	public int createEmployee(Employee employee) {
 		try {
 		Session currentSession = entityManager.unwrap(Session.class);
 		currentSession.save(employee);
+		return employee.getId();
 		}
 		catch(Exception e) {
-			throw new CustomException("Error Creating User");
+			if(e.getClass().toString().toLowerCase().contains("constraint"))
+				throw new CustomException("Email id is taken.Please select new Email id.");
+			else
+				throw new CustomException("Error creating user");
 		}
 	}
 

@@ -51,7 +51,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	@Transactional
-	public void createEmployee(Employee employee) {
+	public int createEmployee(Employee employee) {
 		System.out.println(employee);
 		if (!validateNewEmployee(employee))
 		{
@@ -61,7 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		{
 			employee.setFname(employee.getFname().strip());
 			employee.setLname(employee.getLname().strip());
-		    employeeDAO.createEmployee(employee);
+		   return employeeDAO.createEmployee(employee);
 			
 		}
 		
