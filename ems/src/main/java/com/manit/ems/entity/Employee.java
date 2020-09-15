@@ -1,5 +1,7 @@
 package com.manit.ems.entity;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,9 +36,8 @@ public class Employee {
 	@Column(name = "gender")
 	private boolean gender;
 	
-	@Column(name = "age")
-	private int age;
-	
+	@Column(name = "dob")
+	private Date dob;
 	@Column(name="password")
 	private String password;
 	
@@ -47,7 +48,7 @@ public class Employee {
 	
 	
 
-	public Employee(int id, String fname, String lname, String email, boolean gender, int age,
+	public Employee(int id, String fname, String lname, String email, boolean gender, Date dob,
 			EmployeeDetail employeeDetail) {
 		super();
 		this.id = id;
@@ -55,7 +56,7 @@ public class Employee {
 		this.lname = lname;
 		this.email = email;
 		this.gender = gender;
-		this.age = age;
+		this.dob = dob;
 		this.employeeDetail = employeeDetail;
 	}
 
@@ -101,12 +102,12 @@ public class Employee {
 		this.gender = gender;
 	}
 
-	public int getAge() {
-		return age;
+	public Date getDob() {
+		return dob;
 	}
 
-	public void setAge(int age) {
-		this.age = age;
+	public void setDob(Date dob) {
+		this.dob = dob;
 	}
 
 	public EmployeeDetail getEmployeeDetail() {
@@ -141,7 +142,7 @@ public class Employee {
 	@Override
 	public String toString() {
 		return "Employee [id=" + id + ", fname=" + fname + ", lname=" + lname + ", email=" + email + ", gender="
-				+ gender + ", age=" + age + ", password=" + password + ", employeeDetail=" + employeeDetail + "]";
+				+ gender + ", age=" + dob + ", password=" + password + ", employeeDetail=" + employeeDetail + "]";
 	}
 
 
